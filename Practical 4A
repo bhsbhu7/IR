@@ -23,3 +23,28 @@ precision, recall, f_measure = calculate_metrics(retrieved_set, relevant_set)
 print(f"Precision: {precision:.2f}")
 print(f"Recall: {recall:.2f}")
 print(f"F-measure: {f_measure:.2f}")
+
+_______________________________________________________
+
+def calculate_metrics_from_counts(tp, fp, fn):
+    print("True Positive:", tp)
+    print("False Positive:", fp)
+    print("False Negative:", fn)
+    print()
+
+    precision = tp / (tp + fp) if (tp + fp) else 0
+    recall = tp / (tp + fn) if (tp + fn) else 0
+    f_measure = (2 * precision * recall / (precision + recall)) if (precision + recall) else 0
+
+    return precision, recall, f_measure
+
+# Given values
+tp = 20
+fp = 10
+fn = 30
+
+precision, recall, f_measure = calculate_metrics_from_counts(tp, fp, fn)
+
+print(f"Precision: {precision:.2f}")
+print(f"Recall: {recall:.2f}")
+print(f"F-measure: {f_measure:.2f}")
