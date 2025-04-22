@@ -1,0 +1,28 @@
+#Text classification algo, train on labelled dataset ( Naive, support vector)
+
+from sklearn.datasets import fetch_20newsgroups
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, classification_report
+
+newsgroups = fetch_20newsgroups(subset='all', remove=('headers', 'footers', 'quotes'))
+
+X_train, X_test, y_train, y_test = train_test_split(newsgroups.data, newsgroups.target,
+test_size=0.2, random_state=42)
+
+vectorizer = TfidfVectorizer()
+X_train_tfidf = vectorizer.fit_transform(X_train)
+X_test_tfidf = vectorizer.transform(X_test)
+
+svm_classifier = SVC(kernel='linear', C=1.0)
+svm_classifier.fit(X_train_tfidf, y_train)
+
+y_pred = svm_classifier.predict(X_test_tfidf)
+
+accuracy = accuracy_score(y_test, y_pred)
+classification_rep = classification_report(y_test, y_pred, target_names=newsgroups.target_names)
+
+print(f"Accuracy: {accuracy:.2f}")
+print("\nClassification Report:")
+print(classification_rep)
